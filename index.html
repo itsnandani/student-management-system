@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#211c59" />
+  <title>Scholar — Student Management Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#" data-page="dashboard" aria-label="Scholar dashboard">
+      <span class="brand__mark">🎓</span>
+      <span><strong>Scholar</strong><small>Student Portal</small></span>
+    </a>
+    <div class="sidebar__label">MENU</div>
+    <nav class="sidebar__nav" aria-label="Main navigation">
+      <button class="nav-item active" data-page="dashboard"><span>⌂</span>Dashboard</button>
+      <button class="nav-item" data-page="students"><span>♧</span>Students</button>
+      <button class="nav-item" data-page="add"><span>＋</span>Add Student</button>
+      <button class="nav-item" data-page="attendance"><span>◷</span>Attendance</button>
+      <button class="nav-item" data-page="courses"><span>▤</span>Courses</button>
+      <button class="nav-item" data-page="examinations"><span>✎</span>Examinations</button>
+      <button class="nav-item" data-page="results"><span>✓</span>Results</button>
+      <button class="nav-item" data-page="fees"><span>₹</span>Fees Management</button>
+      <button class="nav-item" data-page="reports"><span>▥</span>Reports &amp; Analytics</button>
+      <button class="nav-item" data-page="notifications"><span>♧</span>Notifications <i id="notification-count" class="nav-count">0</i></button>
+      <button class="nav-item" data-page="settings"><span>⚙</span>Settings</button>
+      <button class="nav-item" data-page="about"><span>ⓘ</span>About Project</button>
+    </nav>
+    <div class="sidebar__illustration" aria-hidden="true">
+      <span class="illustration__spark">✦</span>
+      <div class="illustration__book book--top"></div>
+      <div class="illustration__book book--middle"></div>
+      <div class="illustration__book book--bottom"></div>
+      <div class="illustration__cap">🎓</div>
+      <p>Learning today,<br />leading tomorrow.</p>
+    </div>
+    <button class="sidebar__reset" id="reset-data-btn">↻ <span>Reset sample data</span></button>
+  </aside>
+
+  <div class="sidebar-scrim" id="sidebar-scrim"></div>
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-button menu-toggle" id="menu-toggle" aria-label="Open navigation">☰</button>
+      <label class="global-search"><span>⌕</span><input id="global-search" type="search" placeholder="Search students by name or roll number..." aria-label="Search students" /></label>
+      <div class="topbar__right">
+        <button class="icon-button notification-button" data-page="notifications" aria-label="Notifications">♧<i></i></button>
+        <div class="profile-area"><button class="profile-button" id="profile-menu-toggle" aria-haspopup="true" aria-expanded="false"><span class="avatar">A</span><span id="profile-admin-name">Admin</span><span>⌄</span></button><div class="profile-menu" id="profile-menu" hidden><button data-page="settings">Admin &amp; institution settings</button><button data-profile-reset>Reset sample data</button></div></div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-heading">
+        <div><h1 id="page-title">Dashboard</h1><p id="page-subtitle">Manage and track student information easily.</p></div>
+        <div class="heading-actions"><span class="date-chip">▦ <span id="today-date"></span></span><button class="btn btn--primary" id="topbar-add-btn">＋ Add Student</button></div>
+      </div>
+
+      <section class="page active" id="page-dashboard">
+        <div class="stats-grid">
+          <article class="stat-card stat-card--violet"><div class="stat-top"><span class="stat-icon">♧</span><span class="stat-trend">All records</span></div><div class="stat-value" id="stat-total">0</div><div class="stat-label">Total Students</div></article>
+          <article class="stat-card stat-card--green"><div class="stat-top"><span class="stat-icon">✓</span><span class="stat-trend">On track</span></div><div class="stat-value" id="stat-passed">0</div><div class="stat-label">Passed Students</div></article>
+          <article class="stat-card stat-card--orange"><div class="stat-top"><span class="stat-icon">!</span><span class="stat-trend">Needs attention</span></div><div class="stat-value" id="stat-failed">0</div><div class="stat-label">Failed Students</div></article>
+          <article class="stat-card stat-card--blue"><div class="stat-top"><span class="stat-icon">₹</span><span class="stat-trend">Outstanding</span></div><div class="stat-value"><small>₹</small><span id="stat-pending-fees">0</span></div><div class="stat-label">Pending Fees</div></article>
+          <article class="stat-card stat-card--lavender"><div class="stat-top"><span class="stat-icon">◉</span><span class="stat-trend">Enrolled</span></div><div class="stat-value" id="stat-active">0</div><div class="stat-label">Active Students</div></article>
+          <article class="stat-card stat-card--teal"><div class="stat-top"><span class="stat-icon">★</span><span class="stat-trend">Class average</span></div><div class="stat-value" id="stat-avg">0</div><div class="stat-label">Average Marks</div></article>
+          <article class="stat-card stat-card--pink"><div class="stat-top"><span class="stat-icon">◷</span><span class="stat-trend">Current rate</span></div><div class="stat-value"><span id="stat-attendance">0</span><small>%</small></div><div class="stat-label">Attendance Rate</div></article>
+          <article class="stat-card stat-card--indigo"><div class="stat-top"><span class="stat-icon">▤</span><span class="stat-trend">Available</span></div><div class="stat-value" id="stat-courses">0</div><div class="stat-label">Total Courses</div></article>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="panel chart-panel panel--wide">
+            <div class="panel__header"><div><h2>Student Enrollment</h2><p class="muted">Enrollment overview by course</p></div><span class="panel-chip">All records</span></div>
+            <div class="chart-area" id="enrollment-chart" aria-label="Student enrollment chart"></div>
+          </article>
+          <article class="panel chart-panel">
+            <div class="panel__header"><div><h2>Grade Distribution</h2><p class="muted">Student performance</p></div></div>
+            <div class="grade-chart" id="grade-chart"></div>
+          </article>
+          <article class="panel chart-panel">
+            <div class="panel__header"><div><h2>Monthly Attendance</h2><p class="muted">Attendance trend by month</p></div><span class="legend-dot">Present</span></div>
+            <div class="attendance-chart" id="attendance-chart"></div>
+          </article>
+          <article class="panel course-panel">
+            <div class="panel__header"><div><h2>Course Statistics</h2><p class="muted">Enrollment by course</p></div><button class="text-button" data-page="courses">View all →</button></div>
+            <div id="course-summary" class="course-summary"></div>
+          </article>
+        </div>
+
+        <div class="dashboard-bottom">
+          <article class="panel">
+            <div class="panel__header"><div><h2>Recent Student Registrations</h2><p class="muted">Latest students added to the portal</p></div><button class="text-button" data-page="students">View all →</button></div>
+            <div class="table-wrap"><table class="data-table"><thead><tr><th>Student</th><th>Roll No.</th><th>Course</th><th>Marks</th><th>Status</th></tr></thead><tbody id="recent-students-body"></tbody></table><div class="empty-state" id="recent-empty" hidden>No student registrations yet.</div></div>
+          </article>
+          <article class="panel">
+            <div class="panel__header"><div><h2>Upcoming Examinations</h2><p class="muted">Keep track of important dates</p></div><button class="text-button" data-page="examinations">View all →</button></div>
+            <div class="upcoming-list" id="upcoming-exams"></div>
+          </article>
+          <article class="panel">
+            <div class="panel__header"><div><h2>Recent Activity</h2><p class="muted">Latest updates across the portal</p></div><button class="text-button" data-page="notifications">View all →</button></div>
+            <div class="timeline-list" id="recent-activity"></div>
+          </article>
+          <article class="panel">
+            <div class="panel__header"><div><h2>Fee Collection Summary</h2><p class="muted">Paid and outstanding balances</p></div><button class="text-button" data-page="fees">View all →</button></div>
+            <div class="bars" id="dashboard-fees"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="page" id="page-students">
+        <article class="panel">
+          <div class="panel__header panel__header--toolbar"><div><h2>Student Records</h2><p class="muted">Browse, search and manage your students</p></div><div class="toolbar-actions"><button class="btn btn--outline" id="import-csv-btn">↑ Import CSV</button><button class="btn btn--outline" id="export-csv-btn">↓ Export CSV</button><button class="btn btn--primary" data-page="add">＋ Add Student</button><input id="csv-file" type="file" accept=".csv,text/csv" hidden /></div></div>
+          <div class="filterbar"><input id="search-input" class="input search-control" type="search" placeholder="⌕ Search by name, roll number, email..." /><select id="filter-course" class="input"><option value="All">All Courses</option></select><select id="filter-status" class="input"><option value="All">All Status</option><option>Active</option><option>Inactive</option></select><select id="sort-field" class="input"><option value="name">Sort: Name</option><option value="roll">Sort: Roll No.</option><option value="marks">Sort: Marks</option><option value="attendance">Sort: Attendance</option><option value="course">Sort: Course</option></select><button id="sort-direction-btn" class="btn btn--outline">↑ Asc</button><button id="bulk-delete-btn" class="btn btn--danger" disabled>Delete selected</button></div>
+          <div class="table-wrap"><table class="data-table students-table"><thead><tr><th><input type="checkbox" id="select-all-students" aria-label="Select all students" /></th><th>Student</th><th>Roll No.</th><th>Course</th><th>Class</th><th>Marks</th><th>Grade</th><th>Attendance</th><th>Status</th><th>Actions</th></tr></thead><tbody id="students-body"></tbody></table><div class="empty-state" id="students-empty" hidden>No matching students found.</div></div>
+          <div class="table-footer"><span id="student-count"></span><div class="pagination"><button class="btn btn--outline btn--sm" id="page-prev">←</button><span id="page-indicator"></span><button class="btn btn--outline btn--sm" id="page-next">→</button></div></div>
+        </article>
+      </section>
+
+      <section class="page" id="page-add">
+        <article class="panel panel--form"><div class="panel__header"><div><h2 id="form-title">Add New Student</h2><p class="muted">Enter the student's personal and academic information</p></div></div>
+          <form id="student-form" novalidate><input type="hidden" id="student-id" />
+            <h3 class="form-section-title">Personal Information</h3>
+            <div class="form-grid">
+              <div class="field"><label for="f-student-code">Student ID *</label><input id="f-student-code" class="input" required /><span class="field__error" id="err-studentCode"></span></div>
+              <div class="field"><label for="f-roll">Roll Number *</label><input id="f-roll" class="input" required placeholder="e.g. STU1021" /><span class="field__error" id="err-roll"></span></div>
+              <div class="field"><label for="f-name">Full Name *</label><input id="f-name" class="input" required placeholder="Student full name" /><span class="field__error" id="err-name"></span></div>
+              <div class="field"><label for="f-email">Email Address *</label><input id="f-email" class="input" type="email" required placeholder="student@example.com" /><span class="field__error" id="err-email"></span></div>
+              <div class="field"><label for="f-phone">Phone Number *</label><input id="f-phone" class="input" required placeholder="+91 9876543210" /><span class="field__error" id="err-phone"></span></div>
+              <div class="field"><label for="f-gender">Gender</label><select id="f-gender" class="input"><option value="">Select gender</option><option>Female</option><option>Male</option><option>Non-binary</option><option>Prefer not to say</option></select></div>
+              <div class="field"><label for="f-dob">Date of Birth</label><input id="f-dob" class="input" type="date" /></div>
+              <div class="field field--full"><label for="f-address">Address</label><input id="f-address" class="input" placeholder="Street address" /></div>
+              <div class="field"><label for="f-city">City</label><input id="f-city" class="input" placeholder="City" /></div>
+              <div class="field"><label for="f-state">State</label><input id="f-state" class="input" placeholder="State" /></div>
+              <div class="field"><label for="f-photo">Profile Photo URL</label><input id="f-photo" class="input" type="url" placeholder="https://example.com/photo.jpg" /></div>
+              <div class="field"><label for="f-guardian">Guardian Name</label><input id="f-guardian" class="input" placeholder="Guardian's full name" /></div>
+              <div class="field"><label for="f-guardian-phone">Guardian Phone</label><input id="f-guardian-phone" class="input" placeholder="Guardian contact number" /></div>
+              <div class="field"><label for="f-relationship">Guardian Relationship</label><select id="f-relationship" class="input"><option value="">Select relationship</option><option>Parent</option><option>Guardian</option><option>Sibling</option><option>Other</option></select></div>
+            </div>
+            <h3 class="form-section-title">Academic Information</h3>
+            <div class="form-grid">
+              <div class="field"><label for="f-course">Course *</label><input id="f-course" class="input" list="course-suggestions" required placeholder="e.g. Computer Science" /><datalist id="course-suggestions"></datalist><span class="field__error" id="err-course"></span></div>
+              <div class="field"><label for="f-department">Department</label><input id="f-department" class="input" placeholder="Department" /></div>
+              <div class="field"><label for="f-semester">Semester / Class *</label><select id="f-semester" class="input" required><option value="">Select semester</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select><span class="field__error" id="err-semester"></span></div>
+              <div class="field"><label for="f-admission">Admission Date</label><input id="f-admission" class="input" type="date" /></div>
+              <div class="field"><label for="f-marks">Marks (0–100) *</label><input id="f-marks" class="input" type="number" min="0" max="100" required /><span class="field__error" id="err-marks"></span></div>
+              <div class="field"><label for="f-attendance">Attendance % *</label><input id="f-attendance" class="input" type="number" min="0" max="100" required /><span class="field__error" id="err-attendance"></span></div>
+              <div class="field"><label for="f-status">Status</label><select id="f-status" class="input"><option>Active</option><option>Inactive</option></select><span class="field__error" id="err-status"></span></div>
+              <div class="field"><label>Calculated Grade</label><div class="grade-readout" id="grade-preview">—</div></div>
+            </div>
+            <div class="form-actions"><button type="submit" class="btn btn--primary" id="form-submit-btn">Save Student</button><button type="button" class="btn btn--outline" id="form-cancel-btn">Cancel</button></div>
+          </form>
+        </article>
+      </section>
+
+      <section class="page" id="page-attendance">
+        <article class="panel"><div class="panel__header panel__header--toolbar"><div><h2>Attendance Management</h2><p class="muted">Mark and review class attendance</p></div><div class="toolbar-actions"><select id="attendance-course" class="input"><option value="All">All Courses</option></select><select id="attendance-semester" class="input"><option value="All">All Semesters</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select><input id="attendance-date" class="input" type="date" /><button class="btn btn--outline" id="mark-all-present">Mark all present</button><button class="btn btn--primary" id="save-attendance">Save Attendance</button></div></div>
+          <div class="attendance-summary" id="attendance-summary"></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Student</th><th>Roll No.</th><th>Course</th><th>Attendance</th><th>Mark today</th></tr></thead><tbody id="attendance-body"></tbody></table></div>
+        </article>
+        <article class="panel"><div class="panel__header panel__header--toolbar"><div><h2>Attendance History</h2><p class="muted">Filter records by student, date or month</p></div><div class="toolbar-actions"><input id="attendance-filter-student" class="input" type="search" placeholder="Search student..." /><input id="attendance-filter-date" class="input" type="date" aria-label="Filter by date" /><input id="attendance-filter-month" class="input" type="month" aria-label="Filter by month" /></div></div><div class="attendance-summary" id="attendance-monthly-summary"></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Date</th><th>Student</th><th>Course</th><th>Status</th></tr></thead><tbody id="attendance-history"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-courses">
+        <div class="section-toolbar"><div><h2>Courses &amp; Departments</h2><p class="muted">Manage academic programs and enrollment</p></div><button class="btn btn--primary" id="add-course-btn">＋ Add Course</button></div>
+        <div class="course-grid" id="course-grid"></div>
+      </section>
+
+      <section class="page" id="page-examinations">
+        <article class="panel"><div class="panel__header panel__header--toolbar"><div><h2>Examinations</h2><p class="muted">Create exams, subjects and mark sheets</p></div><button class="btn btn--primary" id="add-exam-btn">＋ Add Examination</button></div><div id="exam-list" class="exam-list"></div></article>
+      </section>
+
+      <section class="page" id="page-results">
+        <article class="panel"><div class="panel__header panel__header--toolbar"><div><h2>Examination Results</h2><p class="muted">Percentages, grades and pass status (40% pass mark)</p></div><div class="toolbar-actions"><input id="result-search" class="input" placeholder="Search name or roll number..." /><select id="result-course-filter" class="input"><option value="All">All Courses</option></select><select id="result-exam-filter" class="input"><option value="All">All Examinations</option></select></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Student</th><th>Roll No.</th><th>Course</th><th>Examination</th><th>Marks</th><th>Percent</th><th>Grade</th><th>Result</th><th></th></tr></thead><tbody id="results-body"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-fees">
+        <div class="stats-grid stats-grid--three fees-stat-grid"><article class="stat-card stat-card--violet"><div class="stat-value" id="fees-total">₹0</div><div class="stat-label">Total Fees</div></article><article class="stat-card stat-card--green"><div class="stat-value" id="fees-paid">₹0</div><div class="stat-label">Paid Fees</div></article><article class="stat-card stat-card--orange"><div class="stat-value" id="fees-pending">₹0</div><div class="stat-label">Pending Fees</div></article><article class="stat-card stat-card--pink"><div class="stat-value" id="fees-overdue">₹0</div><div class="stat-label">Overdue Fees</div></article><article class="stat-card stat-card--blue"><div class="stat-value" id="fees-transactions">0</div><div class="stat-label">Transactions</div></article></div>
+        <article class="panel"><div class="panel__header panel__header--toolbar"><div><h2>Student Fee Records</h2><p class="muted">Track balances, due dates and payment history</p></div><div class="toolbar-actions"><input id="fees-search" class="input" placeholder="Search student..." /><select class="input" id="fees-filter"><option value="All">All payments</option><option value="Pending">Unpaid / partial</option><option value="Paid">Paid</option><option value="Overdue">Overdue</option></select><button class="btn btn--primary" id="add-fee-record-btn">＋ Add Fee Record</button></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Student</th><th>Roll No.</th><th>Total Fees</th><th>Paid</th><th>Balance</th><th>Due Date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="fees-body"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-reports">
+        <div class="section-toolbar"><div><h2>Reports &amp; Analytics</h2><p class="muted">Insights generated from your saved records</p></div><div class="toolbar-actions"><input class="input" id="report-from" type="date" aria-label="Report start date" /><input class="input" id="report-to" type="date" aria-label="Report end date" /><select id="report-course-filter" class="input"><option value="All">All Courses</option></select><button class="btn btn--outline" id="print-report">Print</button><button class="btn btn--outline" id="export-report">↓ Export CSV</button></div></div>
+        <div class="reports-grid"><article class="panel"><div class="panel__header"><h2>Course Enrollment</h2></div><div class="bars" id="report-course"></div></article><article class="panel"><div class="panel__header"><h2>Monthly Admissions</h2></div><div class="bars" id="report-admissions"></div></article><article class="panel"><div class="panel__header"><h2>Grade Distribution</h2></div><div class="bars" id="report-grade"></div></article><article class="panel"><div class="panel__header"><h2>Pass / Fail Statistics</h2></div><div class="bars" id="report-passfail"></div></article><article class="panel panel--center"><div class="panel__header"><h2>Average Marks</h2></div><div class="big-number" id="report-avg">0</div><p class="muted">Average marks across student records</p></article><article class="panel"><div class="panel__header"><h2>Fees Collection</h2></div><div class="bars" id="report-fees"></div></article><article class="panel"><div class="panel__header"><h2>Attendance Summary</h2></div><div class="bars" id="report-attendance"></div></article><article class="panel"><div class="panel__header"><h2>Subject-wise Performance</h2></div><div class="bars" id="report-subject"></div></article></div>
+      </section>
+
+      <section class="page" id="page-notifications"><article class="panel"><div class="panel__header panel__header--toolbar"><div><h2>Notifications</h2><p class="muted">Announcements, reminders and activity updates</p></div><button class="btn btn--outline" id="mark-all-read">Mark all as read</button></div><div id="notification-list" class="notification-list"></div></article></section>
+
+      <section class="page" id="page-settings">
+        <div class="settings-grid"><article class="panel panel--form"><div class="panel__header"><div><h2>School Information</h2><p class="muted">Customize your institution details</p></div></div><form id="school-form" class="form-grid"><div class="field"><label for="school-name">Institution Name</label><input class="input" id="school-name" value="Scholar Academy" /></div><div class="field"><label for="admin-name">Administrator</label><input class="input" id="admin-name" value="Admin" /></div><div class="field"><label for="school-email">Contact Email</label><input class="input" id="school-email" type="email" value="admin@scholar.edu" /></div><div class="field"><label for="school-phone">Contact Phone</label><input class="input" id="school-phone" value="+91 9876543210" /></div><div class="form-actions field--full"><button class="btn btn--primary">Save Profile</button></div></form></article>
+          <article class="panel panel--form"><div class="panel__header"><div><h2>Preferences &amp; Data</h2><p class="muted">Manage appearance and your local backup</p></div></div><div class="settings-actions"><label class="setting-row"><span><strong>Dark theme</strong><small>Switch the portal appearance</small></span><input type="checkbox" id="theme-toggle" /></label><div class="setting-row"><span><strong>Export backup</strong><small>Download all portal data as JSON</small></span><button class="btn btn--outline" id="backup-export">Export</button></div><div class="setting-row"><span><strong>Import backup</strong><small>Restore a previously exported JSON file</small></span><button class="btn btn--outline" id="backup-import-btn">Import</button><input type="file" id="backup-file" accept=".json,application/json" hidden /></div><div class="setting-row"><span><strong>Reset sample data</strong><small>Restore the original demonstration records</small></span><button class="btn btn--danger" id="settings-reset">Reset</button></div></div></article></div>
+      </section>
+
+      <section class="page" id="page-about"><article class="panel panel--form"><div class="panel__header"><div><h2>About Scholar Portal</h2><p class="muted">A modern, browser-based student administration workspace</p></div></div><div class="about-content"><p><strong>Scholar Student Management Portal</strong> is a frontend-only application built with HTML5, CSS3 and vanilla JavaScript. Students, attendance, courses, examinations, payments and preferences are stored locally in your browser.</p><p>No backend or external service is required. Export a backup from Settings to move data between devices. The original student CRUD, validation, search, sorting and reporting workflows are preserved and extended.</p><p><strong>Privacy note:</strong> portal data stays in this browser's LocalStorage unless you explicitly export it.</p></div></article></section>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="view-modal-overlay" hidden><div class="modal"><div class="modal__header"><h3 id="modal-title">Details</h3><button class="modal__close" data-close-modal aria-label="Close">×</button></div><div class="modal__body" id="view-modal-body"></div><div class="modal__footer" id="modal-footer"></div></div></div>
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <script src="js/data.js"></script>
+  <script src="js/students.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/attendance.js"></script>
+  <script src="js/courses.js"></script>
+  <script src="js/examinations.js"></script>
+  <script src="js/results.js"></script>
+  <script src="js/fees.js"></script>
+  <script src="js/reports.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/version.js"></script>
+</body>
+</html>
