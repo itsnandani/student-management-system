@@ -34,6 +34,7 @@ export async function buildSite(root = projectRoot, output = path.join(root, "di
     await mkdir(destinationDirectory, { recursive: true });
     for (const entry of await readdir(sourceDirectory, { withFileTypes: true })) {
       if (excludedDirectories.has(entry.name)) continue;
+      if (/\.[a-f0-9]{12}\.(?:css|js)$/.test(entry.name)) continue;
       const sourcePath = path.join(sourceDirectory, entry.name);
       const destinationPath = path.join(destinationDirectory, entry.name);
       if (entry.isDirectory()) await copyProject(sourcePath, destinationPath);

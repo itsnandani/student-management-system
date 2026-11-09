@@ -40,39 +40,35 @@ The application has no application server or remote database. Records and prefer
 
 ## 6. Website Screenshots
 
-Available screenshots are embedded below. Three requested module screenshots were not present when this README was generated; no replacement images have been fabricated.
+These screenshots were captured from the running Scholar portal. Desktop pages use a wide viewport; the mobile screenshot uses the responsive layout.
 
 ### Dashboard
 
 ![Desktop dashboard](screenshots/dashboard.png)
 
+### Student management
+
+![Student management page](screenshots/students.png)
+
+### Add student form
+
+![Add student form](screenshots/add-student.png)
+
+### Reports and analytics
+
+![Reports and analytics page](screenshots/reports.png)
+
 ### Mobile dashboard
 
 ![Responsive mobile dashboard](screenshots/mobile.png)
 
-### Screenshots still to capture
-
-| Expected path | Status |
-|---|---|
-| `screenshots/students.png` | Missing — capture the Students section |
-| `screenshots/add-student.png` | Missing — capture the Add Student form |
-| `screenshots/reports.png` | Missing — capture Reports & Analytics |
-
-Capture these screens from the running app and save them at the listed paths to complete the screenshot set.
-
-See the [documentation validation report](DOCUMENTATION_VALIDATION.md) for the automated documentation checks and missing-deliverable summary.
-
 ## 7. GitHub Repository Link
 
-**Not available yet.** The project folder has no Git repository or configured remote, so a repository URL cannot be verified. Replace this placeholder after creating and pushing to a GitHub repository:
-
-`[Add the verified GitHub repository URL here]`
+[Scholar Student Management Portal on GitHub](https://github.com/itsnandani/student-management-system/)
 
 ## 8. Live Website Link
 
-**Not available yet.** No published GitHub Pages URL could be verified. After enabling the GitHub Actions deployment and confirming the published site, replace this placeholder:
-
-`[Add the verified GitHub Pages URL here]`
+[Open the live Scholar portal](https://itsnandani.github.io/student-management-system/)
 
 ## 9. Challenges Faced
 
@@ -98,8 +94,6 @@ This project applies modular JavaScript, data validation, CRUD workflows, DOM re
 
 ## 12. Future Improvements
 
-- Capture the missing Students, Add Student, and Reports screenshots.
-- Create and verify a GitHub repository, then publish and confirm the Pages URL.
 - Add automated interaction tests for student, attendance, examination, and fee workflows.
 - Add accessible chart alternatives and improve keyboard/screen-reader testing.
 - Add a secure authenticated backend and role-based access if the portal is adapted for real institutional records.
@@ -109,7 +103,13 @@ This project applies modular JavaScript, data validation, CRUD workflows, DOM re
 
 The application itself has no package installation step or third-party runtime dependency.
 
-1. Download or clone the project.
+1. Clone the verified repository or download its source:
+
+   ```sh
+   git clone https://github.com/itsnandani/student-management-system.git
+   cd student-management-system
+   ```
+
 2. To open the source directly, use a modern browser. For local server behavior, use VS Code Live Server or another static HTTP server.
 3. Node.js 20 or newer is required only to run the optional static build and its tests.
 
@@ -130,32 +130,28 @@ Use **Settings → Export backup** before moving browser data to another device.
 
 ## 15. Git and GitHub Instructions
 
-The current workspace is not a Git repository, so the commands below are setup instructions—not actions already completed.
+The local checkout is on branch `main` at `da4195c` (`Initial commit: Student Management System`). GitHub's `main` currently has a newer direct child commit, `e0327b54885916c28231c6bca129021fa97fe5a5`; fetch and review it before reconciling or committing local changes. View the actual remote history on [GitHub](https://github.com/itsnandani/student-management-system/commits/main/) or local history with `git log --oneline`. These workspace changes are not commits.
 
-1. Create an empty repository on GitHub and copy its verified URL.
-2. From the project root, initialize Git and make the first commit:
+To prepare and push your own changes:
 
-   ```sh
-   git init
-   git add .
-   git commit -m "Build Scholar student management portal"
-   git branch -M main
-   git remote add origin <your-verified-repository-url>
-   git push -u origin main
-   ```
+```sh
+git status
+git add README.md DOCUMENTATION_VALIDATION.md screenshots css js scripts .github index.html .gitignore
+git commit -m "Prepare Week 6 student portal submission"
+git push origin main
+```
 
-3. Replace the repository placeholder in Section 7 with the actual repository URL.
+Review the staged file list before committing. Do not initialize a second repository or rewrite existing history.
 
 ## 16. GitHub Pages Deployment
 
-The project includes `.github/workflows/pages.yml`. After pushing the workflow to the `main` branch:
+The project includes `.github/workflows/pages.yml`, and the provided Pages URL was checked during this audit. The workflow:
 
-1. In GitHub, open **Settings → Pages** and select **GitHub Actions** as the build and deployment source.
-2. Ensure Pages deployment is permitted for the repository.
-3. Push to `main` or manually run the **Deploy Scholar to GitHub Pages** workflow. It runs the asset-versioning tests, generates `dist/`, and deploys that directory.
-4. Open the published site, confirm it loads, then add its verified URL to Section 8.
+1. Runs on pushes to `main` or manual dispatch.
+2. Uses Node.js 20, runs the asset-versioning tests, builds the static site into `dist/`, and uploads that output for GitHub Pages deployment.
+3. Uses the GitHub Pages Actions deployment job.
 
-The workflow is configured in the project, but no repository or live deployment has been verified from this workspace.
+The latest remote run of `pages.yml` completed successfully for commit `e0327b5`, and its Pages deployment status is successful. A separate legacy workflow run was cancelled. The changes in this local workspace have not been committed or deployed. In GitHub, check **Settings → Pages** and select **GitHub Actions** as the source if deployment is not enabled.
 
 ## 17. Project Folder Structure
 
@@ -167,8 +163,7 @@ Week5_Student_Management_System/
 ├── assets/
 │   └── README.txt                 # Reserved for local assets; none currently required
 ├── css/
-│   ├── style.css                  # Editable stylesheet (source of truth)
-│   └── style.<content-hash>.css   # Existing generated asset copy
+│   └── style.css                  # Editable stylesheet
 ├── js/
 │   ├── data.js                    # Sample data and LocalStorage/backup validation
 │   ├── students.js                # Student model, CRUD, grades, and validation
@@ -182,11 +177,12 @@ Week5_Student_Management_System/
 │   ├── notifications.js
 │   ├── settings.js
 │   ├── script.js                  # UI rendering, routing, and event wiring
-│   ├── version.js                 # Deployment version check and refresh notice
-│   └── <module>.<content-hash>.js # Existing generated asset copies
+│   └── version.js                 # Deployment version check and refresh notice
 ├── screenshots/
-│   ├── README.txt
 │   ├── dashboard.png
+│   ├── students.png
+│   ├── add-student.png
+│   ├── reports.png
 │   └── mobile.png
 ├── scripts/
 │   ├── build.mjs                  # Static-site asset hashing and version generation
@@ -198,11 +194,11 @@ Week5_Student_Management_System/
 └── dist/                          # Generated by the build; ignored by Git
 ```
 
-The hashed files shown above are existing generated copies. The readable `style.css` and `js/*.js` files are the editable sources; the build generates fresh hashed URLs in `dist/`.
+The editable source files remain readable in `css/` and `js/`. The build generates content-hashed asset URLs and copies in `dist/`; it does not leave duplicate generated assets in the source folders.
 
 ## 18. Project Reflection
 
-**Word count: 462**
+**Word count: 479**
 
 I developed Scholar, a student management portal that brings student records, attendance, courses, examinations, results, fees, and reports into one responsive website. I selected this project because educational administration involves connected information that is difficult to manage consistently in separate lists. Building a browser-based system gave me a practical way to explore those relationships while extending an existing student project rather than starting with an unrelated template.
 
@@ -212,6 +208,6 @@ JavaScript connects the page to focused data modules and handles CRUD operations
 
 LocalStorage taught me to distinguish application data from downloaded assets. The portal stores student and related records, settings, and preferences in the current browser. Valid saved data is loaded instead of being replaced by demonstration data; backups provide an explicit way to move records. I added a build process that creates content-hashed CSS and JavaScript URLs and a deployment version check. Updating those files does not clear saved records. This remains a demonstration, not a secure shared database.
 
-One challenge was keeping related records consistent when a student or course changes. I addressed it with shared models and explicit cleanup and rename operations. Another challenge was supporting a broader set of workflows without losing clarity on mobile. I addressed it with modular scripts, consistent forms and status indicators, and responsive CSS. The added GitHub Actions workflow tests and builds the static site for Pages, but I have not yet created a repository or verified a live deployment. Therefore, I cannot claim that I completed a real Git push or publication.
+One challenge was keeping related records consistent when a student or course changes. I addressed it with shared models and explicit cleanup and rename operations. Another challenge was supporting a broader set of workflows without losing clarity on mobile. I addressed it with modular scripts, consistent forms and status indicators, and responsive CSS. During this audit I verified the existing `main` branch, its `origin` remote, and its actual commit history without rewriting any history. I also confirmed that the supplied repository and live Pages URL respond, but I did not push changes or claim a new deployment.
 
-Through this work I learned to inspect an existing project before changing it, validate data at multiple entry points, and test actual browser behavior rather than infer it from code. My next steps are to capture the missing module screenshots, publish the repository and verify its Pages site, expand automated interaction tests, improve accessibility checks, and consider secure authenticated storage if real institutional data ever becomes a requirement.
+Through this work I learned to inspect an existing project before changing it, validate data at multiple entry points, and test actual browser behavior rather than infer it from code. I also checked the existing Git history and confirmed that the repository and live site respond; these changes remain uncommitted and undeployed. My next steps are to expand automated interaction tests, improve accessibility checks, and consider secure authenticated storage if real institutional data ever becomes a requirement.

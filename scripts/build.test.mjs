@@ -89,3 +89,18 @@ test("update checking does not alter application data and requests the version w
   assert.match(source, /cache:\s*"no-store"/);
   assert.doesNotMatch(source, /localStorage|sessionStorage|caches\.delete/);
 });
+
+test("build excludes stale hash-named source copies", async () => {
+  const root = await createFixture();
+  try {
+    const staleScript = path.join("js", "app.abcdef123456.js");
+    const staleStyle = path.join("css", "style.abcdef123456.css");
+    await writeFile(path.join(root, staleScript), "window.staleScript = true;");
+    await writeFile(path.join(root, staleStyle), "body { color: red; }");
+    await buildSite(root);
+    await assert.rejects(readFile(path.join(root, "dist", staleScript)));
+    await assert.rejects(readFile(path.join(root, "dist", staleStyle)));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
